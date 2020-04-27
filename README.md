@@ -8,7 +8,7 @@
 
 Clonez le repo sur votre machine. Vous pouvez répondre aux questions en modifiant directement votre clone du README.md ou avec un fichier pdf que vous pourrez uploader sur votre fork.
 
-**Le rendu consiste simplement à répondre à toutes les questions clairement identifiées dans le text avec la mention "Question" et à les accompagner avec des captures. Le rendu doit se faire par une "pull request". Envoyer également le hash du dernier commit et votre username GitHub par email au professeur et à l'assistant**
+**Le rendu consiste simplement à répondre à toutes les questions clairement identifiées dans le texte avec la mention "Question" et à les accompagner avec des captures. Le rendu doit se faire par une "pull request". Envoyer également le hash du dernier commit et votre username GitHub par email au professeur et à l'assistant**
 
 **N'oubliez pas de spécifier les noms des membres du groupes dans la Pull Request ainsi que dans le mail de rendu !!!**
 
@@ -40,7 +40,7 @@ Vous pouvez faire fonctionner ce labo sur vos propres machines à condition de c
 
 **Tuto d'installation** de la VM eve-ng : https://www.eve-ng.net/index.php/documentation/installation/virtual-machine-install/
 
-**Récupération de la VM pré-configurée** (vous ne pouvez pas utiliser la versión qui se trouve sur le site de eve-ng) : vous la trouverez sur \\eistore1\cours\iict\SRX\LaboVPn
+**Récupération de la VM pré-configurée** (vous ne pouvez pas utiliser la version qui se trouve sur le site de eve-ng) : vous la trouverez sur \\eistore1\cours\iict\SRX\LaboVPn
 
 Il est conseillé de passer la VM en mode "Bridge" si vous avez des problèmes. Le mode NAT **devrait** aussi fonctionner.
 
@@ -55,7 +55,7 @@ Utilisez un navigateur internet (hors VM) et tapez l'adresse IP de la VM.
 
 ## Fichiers nécessaires 
 
-Tout ce qu'il vous faut c'est un [fichier de projet eve-ng](files/eve-ng_Labo_VPN_SRX.zip), que vous pourrez importer directement dans votre environnement de travail.
+Tout ce qu'il vous faut c'est un [fichier de projet eve-ng] (files/eve-ng_Labo_VPN_SRX.zip), que vous pourrez importer directement dans votre environnement de travail.
 
 
 ## Mise en place
@@ -109,7 +109,7 @@ Un « protocol » différent de `up` indique la plupart du temps que l’interfa
 ---
 
 **Réponse :**  
-
+Nous n'avons pas rencontré de problème. 
 ---
 
 
@@ -146,7 +146,8 @@ Pour votre topologie il est utile de contrôler la connectivité entre :
 ---
 
 **Réponse :**  
-
+Nos premiers pings ne sont pas passés. Ce comportement est normal car le VPC n'avait pas d'adresse IP. Pour résoudre cela, nous avons utilisé la commande "ip dhcp" pour lui en attribuer une.
+Le trafic des adresses IP 172.16-172-18 est routé à travers Internet, ce qui ne devrait pas être le cas. 
 ---
 
 - Activation de « debug » et analyse des messages ping.
@@ -164,7 +165,7 @@ Pour déclencher et pratiquer les captures vous allez « pinger » votre routeur
 -	Les messages de R1 avec `debug ip icmp`.
 
 
-**Question 3: Montrez vous captures**
+**Question 3: Montrez vos captures**
 
 ---
 
