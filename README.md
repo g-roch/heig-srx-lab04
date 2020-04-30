@@ -1,5 +1,7 @@
 # Teaching-HEIGVD-SRX-2020-Laboratoire-VPN
 
+Auteurs : Gwendoline Dössegger, Gabriel Roch, Cassandre Wojciechowski 
+
 **Ce travail de laboratoire est à faire en équipes de 3 personnes**
 
 **Pour ce travail de laboratoire, il est votre responsabilité de chercher vous-même sur internet, le support du cours ou toute autre source (vous avez aussi le droit de communiquer avec les autres équipes), toute information relative au sujet VPN, le logiciel eve-ng, les routeur Cisco, etc que vous ne comprenez pas !**
@@ -8,7 +10,7 @@
 
 Clonez le repo sur votre machine. Vous pouvez répondre aux questions en modifiant directement votre clone du README.md ou avec un fichier pdf que vous pourrez uploader sur votre fork.
 
-**Le rendu consiste simplement à répondre à toutes les questions clairement identifiées dans le text avec la mention "Question" et à les accompagner avec des captures. Le rendu doit se faire par une "pull request". Envoyer également le hash du dernier commit et votre username GitHub par email au professeur et à l'assistant**
+**Le rendu consiste simplement à répondre à toutes les questions clairement identifiées dans le texte avec la mention "Question" et à les accompagner avec des captures. Le rendu doit se faire par une "pull request". Envoyer également le hash du dernier commit et votre username GitHub par email au professeur et à l'assistant**
 
 **N'oubliez pas de spécifier les noms des membres du groupes dans la Pull Request ainsi que dans le mail de rendu !!!**
 
@@ -30,8 +32,8 @@ Dans ce travail de laboratoire, vous allez configurer des routeurs Cisco émulé
 -	Capture Sniffer avec filtres précis sur la communication à épier
 -	Activation du mode « debug » pour certaines fonctions du routeur
 -	Observation des protocoles IPSec
- 
- 
+
+
 ## Matériel
 
 La manière la plus simple de faire ce laboratoire est dans les machines des salles de labo. Le logiciel d'émulation c'est eve-ng. Vous trouverez un [guide très condensé](files/Fonctionnement_EVE-NG.pdf) pour l'utilisation de eve-ng ici.
@@ -92,7 +94,7 @@ Vérifier que le projet a été importé correctement. Pour cela, nous allons co
 
 ### A faire...
 
-- Contrôlez l’état de toutes vos interfaces dans les deux routeurs et le routeur qui simule l'Internet - Pour contrôler l’état de vos interfaces (dans R1, par exmeple) les commandes suivantes sont utiles :
+- Contrôlez l’état de toutes vos interfaces dans les deux routeurs et le routeur qui simule l'Internet - Pour contrôler l’état de vos interfaces (dans R1, par exemple) les commandes suivantes sont utiles :
 
 ```
 R1# show ip interface brief
@@ -108,7 +110,7 @@ Un « protocol » différent de `up` indique la plupart du temps que l’interfa
 
 ---
 
-**Réponse :**  
+**Réponse :**  Nous n'avons pas rencontré de problème.
 
 ---
 
@@ -145,7 +147,9 @@ Pour votre topologie il est utile de contrôler la connectivité entre :
 
 ---
 
-**Réponse :**  
+**Réponse :**  Nos premiers pings ne sont pas passés. Ce comportement est normal car le VPC n'avait pas d'adresse IP. Pour résoudre cela, nous avons utilisé la commande "ip dhcp" pour lui en attribuer une. 
+
+Le trafic des adresses IP 172.16 - 172.18 est routé à travers Internet, ce qui ne devrait pas être le cas. Nous devrons vérifier explicitement que le trafic est chiffré lors de l'utilisation du VPN et qu'il ne passe pas en clair à travers le réseau Internet. 
 
 ---
 
@@ -163,12 +167,15 @@ Pour déclencher et pratiquer les captures vous allez « pinger » votre routeur
 -	Une trace sniffer (Wireshark) à la sortie du routeur R2 vers Internet. Si vous ne savez pas utiliser Wireshark avec eve-ng, référez-vous au document explicatif eve-ng. Le filtre de **capture** (attention, c'est un filtre de **capture** et pas un filtre d'affichage) suivant peut vous aider avec votre capture : `ip host 193.100.100.1`. 
 -	Les messages de R1 avec `debug ip icmp`.
 
-
-**Question 3: Montrez vous captures**
+**Question 3: Montrez vos captures**
 
 ---
 
 **Screenshots :**  
+
+![](images\image_2020-04-30_14-00-34.png)
+
+![](images\image_2020-04-30_14-00-17.png)
 
 ---
 
@@ -241,6 +248,14 @@ Vous pouvez consulter l’état de votre configuration IKE avec les commandes su
 
 **Réponse :**  
 
+![](images\showcryptoisakmpR1.png)
+
+![](images\showcryptoisakmpR2.png)
+
+L'algorithme de chiffrement AES est très fort et on devrait le privilégier à 3DES qui risque de ne plus être suffisamment fort d'ici 2030. 
+
+Le groupe Diffie-Hellman #5 n'est pas suffisamment sécurisé, il faudrait au minimum utiliser le groupe 14 (au moins 2048 bits).
+
 ---
 
 
@@ -249,6 +264,12 @@ Vous pouvez consulter l’état de votre configuration IKE avec les commandes su
 ---
 
 **Réponse :**  
+
+![](images\showcryptoisakmpkeyR1.png)
+
+![](images\showcryptoisakmpkeyR2.png)
+
+La clé "cisco-1" n'est pas suffisamment sécurisée et ce n'est pas du tout sécurisé de la stocker en clair sur les routeurs. Cependant, nous ne savons pas dans quelle mesure il est possible de la stocker après hachage.
 
 ---
 
@@ -337,11 +358,19 @@ debug ip icmp
 
 Pensez à démarrer votre sniffer sur la sortie du routeur R2 vers internet avant de démarrer votre ping, collectez aussi les éventuels messages à la console des différents routeurs. 
 
-**Question 6: Ensuite faites part de vos remarques dans votre rapport. :**
+**Question 6: Ensuite faites part de vos remarques dans votre rapport :**
 
 ---
 
-**Réponse :**  
+**Réponse :**  Il est recommandé d'utiliser des durées de vie de plus de 100 MB et de plus de 300 secondes, ceci pour des raisons de performances. 
+
+![](images\q6.png)
+
+![](images\cryptomapr2.png)
+
+![](images\q6_wireshark.png)
+
+Sur la capture WireShark ci-dessus, nous pouvons constater que le ping passe en étant chiffré entre 172.17.1.100 à 172.16.1.1 (paquets 19, 20, 22, 23 ...).
 
 ---
 
@@ -350,6 +379,16 @@ Pensez à démarrer votre sniffer sur la sortie du routeur R2 vers internet avan
 ---
 
 **Réponse :**  
+
+**IKE** : 
+
+- KeepAlive : intervalle de temps indiquant quand les paquets "Keep Alive" doivent être envoyés
+- Lifetime [s] : temps de vie des SAs de la phase 1 de IKE 
+
+**IPSec**: 
+
+- Lifetime [KB] et [s] : temps de vie des SAs négociées pendant l'échange avec la phase 2 de IKE
+- Idle-time : temps d'inactivité, si la SA n'a pas été utilisée au bout de ce temps, elle est effacée
 
 ---
 
@@ -363,7 +402,7 @@ En vous appuyant sur les notions vues en cours et vos observations en laboratoir
 
 ---
 
-**Réponse :**  
+**Réponse :**  ESP (pour encapsuler les paquets) et IKE (pour négocier les SAs)
 
 ---
 
@@ -372,7 +411,11 @@ En vous appuyant sur les notions vues en cours et vos observations en laboratoir
 
 ---
 
-**Réponse :**  
+**Réponse :**  C'est un mode tunnel, on peut l'identifier car nous avons tapé la commande de configuration "mode tunnel" sur R2. 
+
+On peut aussi identifier ce mode tunnel en observant la capture WireShark ci-dessus (Q.6). Les pings ont été fait de 172.17.1.100 à 172.16.1.1 et pourtant ces adresses n'apparaissent pas dans les zones destination et source de WireShark. Les en-têtes IP originales des paquets ont été encapsulées par la nouvelle en-tête IP qu'ESP utilise en mode tunnel. 
+
+C'est également le seul mode qui est possible quand on veut relier deux réseaux à adressage privé. 
 
 ---
 
@@ -383,14 +426,25 @@ En vous appuyant sur les notions vues en cours et vos observations en laboratoir
 
 **Réponse :**  
 
----
+![](images\mode_tunnel_esp.JPG)
 
+Les parties chiffrées du paquet sont l'en-tête IP originale, les données et le ESP trailer. 
+
+L'algorithme cryptographique correspondant est AES.
+
+---
 
 **Question 11: Expliquez quelles sont les parties du paquet qui sont authentifiées. Donnez l’algorithme cryptographique correspondant.**
 
 ---
 
 **Réponse :**  
+
+![](images\mode_tunnel_esp_auth.JPG)
+
+L'en-tête ESP et l'en-tête originale IP ainsi que les données et le trailer ESP sont authentifiées. 
+
+L'algorithme cryptographique utilisé est HMAC avec SHA1. 
 
 ---
 
@@ -399,6 +453,6 @@ En vous appuyant sur les notions vues en cours et vos observations en laboratoir
 
 ---
 
-**Réponse :**  
+**Réponse :**  L'intégrité de toutes les parties du paquet est garantie comme expliqué ci-dessus pour l'authentification. Il faut que le paquet soit intègre pour être authentifié. L'algorithme cryptographique utilisé est également HMAC avec SHA1. 
 
 ---
