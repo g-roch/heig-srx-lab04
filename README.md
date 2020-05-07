@@ -151,6 +151,14 @@ Pour votre topologie il est utile de contrôler la connectivité entre :
 
 Le trafic des adresses IP 172.16 - 172.18 est routé à travers Internet, ce qui ne devrait pas être le cas. Nous devrons vérifier explicitement que le trafic est chiffré lors de l'utilisation du VPN et qu'il ne passe pas en clair à travers le réseau Internet. 
 
+| Machine source | Ip destination         | Passé                      |
+| -------------- | ---------------------- | -------------------------- |
+| R1             | ISP1 (193.100.100.254) | Oui                        |
+| R2             | ISP2 (193.200.200.254) | Oui                        |
+| R2             | RX1 (193.100.100.1)    | Oui                        |
+| VPC            | R2 (172.17.1.1)        | Oui                        |
+| R1             | VPC (172.17.1.100)     | Oui (Mais devrais échouer) |
+
 ---
 
 - Activation de « debug » et analyse des messages ping.
@@ -248,6 +256,8 @@ Vous pouvez consulter l’état de votre configuration IKE avec les commandes su
 
 **Réponse :**  
 
+Cette commande affiche la configuration des politiques IKE.
+
 ![](images/showcryptoisakmpR1.png)
 
 ![](images/showcryptoisakmpR2.png)
@@ -264,6 +274,8 @@ Le groupe Diffie-Hellman #5 n'est pas suffisamment sécurisé, il faudrait au mi
 ---
 
 **Réponse :**  
+
+Cette commande affiche la configuration des clés IKE.
 
 ![](images/showcryptoisakmpkeyR1.png)
 
@@ -370,7 +382,7 @@ Pensez à démarrer votre sniffer sur la sortie du routeur R2 vers internet avan
 
 ![](images/q6_wireshark.png)
 
-Sur la capture WireShark ci-dessus, nous pouvons constater que le ping passe en étant chiffré entre 172.17.1.100 à 172.16.1.1 (paquets 19, 20, 22, 23 ...).
+Sur la capture WireShark ci-dessus, nous pouvons constater que le ping passe en étant chiffré entre 172.17.1.100 à 172.16.1.1 (paquets 19, 20, 22, 23 ...). Nous constatons qu'il n'y a pas de paquet ICMP et que les paquets ISAKMP sont espacés de 1 seconde ce qui correspond à la durée entre chaque ping de notre machine. Nous en avons donc déduit que ces paquets doivent être nos pings chiffrés.
 
 ---
 
@@ -442,7 +454,7 @@ L'algorithme cryptographique correspondant est AES.
 
 ![](images/mode_tunnel_esp_auth.JPG)
 
-L'en-tête ESP et l'en-tête originale IP ainsi que les données et le trailer ESP sont authentifiées. 
+L'entête ESP et l'entête originale IP ainsi que les données et le trailer ESP sont authentifiées. 
 
 L'algorithme cryptographique utilisé est HMAC avec SHA1. 
 
