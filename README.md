@@ -173,9 +173,9 @@ Pour déclencher et pratiquer les captures vous allez « pinger » votre routeur
 
 **Screenshots :**  
 
-![](images\image_2020-04-30_14-00-34.png)
+![](images/image_2020-04-30_14-00-34.png)
 
-![](images\image_2020-04-30_14-00-17.png)
+![](images/image_2020-04-30_14-00-17.png)
 
 ---
 
@@ -248,9 +248,9 @@ Vous pouvez consulter l’état de votre configuration IKE avec les commandes su
 
 **Réponse :**  
 
-![](images\showcryptoisakmpR1.png)
+![](images/showcryptoisakmpR1.png)
 
-![](images\showcryptoisakmpR2.png)
+![](images/showcryptoisakmpR2.png)
 
 L'algorithme de chiffrement AES est très fort et on devrait le privilégier à 3DES qui risque de ne plus être suffisamment fort d'ici 2030. 
 
@@ -265,9 +265,9 @@ Le groupe Diffie-Hellman #5 n'est pas suffisamment sécurisé, il faudrait au mi
 
 **Réponse :**  
 
-![](images\showcryptoisakmpkeyR1.png)
+![](images/showcryptoisakmpkeyR1.png)
 
-![](images\showcryptoisakmpkeyR2.png)
+![](images/showcryptoisakmpkeyR2.png)
 
 La clé "cisco-1" n'est pas suffisamment sécurisée et ce n'est pas du tout sécurisé de la stocker en clair sur les routeurs. Cependant, nous ne savons pas dans quelle mesure il est possible de la stocker après hachage.
 
@@ -364,11 +364,11 @@ Pensez à démarrer votre sniffer sur la sortie du routeur R2 vers internet avan
 
 **Réponse :**  Il est recommandé d'utiliser des durées de vie de plus de 100 MB et de plus de 300 secondes, ceci pour des raisons de performances. 
 
-![](images\q6.png)
+![](images/q6.png)
 
-![](images\cryptomapr2.png)
+![](images/cryptomapr2.png)
 
-![](images\q6_wireshark.png)
+![](images/q6_wireshark.png)
 
 Sur la capture WireShark ci-dessus, nous pouvons constater que le ping passe en étant chiffré entre 172.17.1.100 à 172.16.1.1 (paquets 19, 20, 22, 23 ...).
 
@@ -426,7 +426,7 @@ C'est également le seul mode qui est possible quand on veut relier deux réseau
 
 **Réponse :**  
 
-![](images\mode_tunnel_esp.JPG)
+![](images/mode_tunnel_esp.JPG)
 
 Les parties chiffrées du paquet sont l'en-tête IP originale, les données et le ESP trailer. 
 
@@ -440,7 +440,7 @@ L'algorithme cryptographique correspondant est AES.
 
 **Réponse :**  
 
-![](images\mode_tunnel_esp_auth.JPG)
+![](images/mode_tunnel_esp_auth.JPG)
 
 L'en-tête ESP et l'en-tête originale IP ainsi que les données et le trailer ESP sont authentifiées. 
 
